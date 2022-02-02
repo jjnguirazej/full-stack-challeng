@@ -1,0 +1,457 @@
+FORMAT: 1A
+HOST: http://polls.apiblueprint.org/
+
+# API VUTTR
+
+Aplicação VUTTR (Very Useful Tools to Remember). A aplicação é um simples 
+repositório para gerenciar ferramentas com seus respectivos nomes, links, 
+descrições e tags. Utilize um repositório Gitlab (público, de preferência) para 
+versionamento e disponibilização do código.
+
+
+
+#Group Recursos de Ferramentas
+
+# Ferramentas [/]
+
+Recursos relacionados com as ferramentas
+Nesta seccao estao o CRUD de ferramentas, ressantando que para poder ter acesso 
+deves efectuar o login, caso nao tenha conta, deves se cadastrar
+
+
+
+## listar todas as ferramentas cadastradas [/tools]
+### Visualizar todas ferramentas [GET]
++ Relation: self
+
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "_id": "61f74bc6427f1f94302be05c",
+                "title": "github",
+                "description": "GitHub é uma plataforma de hospedagem de código-fonte e arquivos com controle de versão",
+                "link": "notion 1",
+                "tags": [
+                "versionamento",
+                "repository",
+                "git"
+                 ]
+            }
+            {
+                "id": "61f74bc6427f1f94302be05c",
+                "title": "json-server",
+                "link": "https://github.com/typicode/json-server",
+                "description": "Fake REST API based on a json schema. Useful for mocking and creating APIs for front-end devs to consume in coding challenges.",
+                "tags": [
+                    "api",
+                    "json",
+                    "schema",
+                    "node",
+                    "github",
+                    "rest"
+                ]
+            }
+
+    + Schema
+
+            {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "link": {
+                        "type": "string"
+                    },
+                    "tags": {
+                        "type": "[String]",
+                      
+                    }
+                }
+            }
+
+
+
+
+
+
+
+## filtrar ferramentas utilizando uma busca por tag [/tools?tags={tags}]
+### Visualizar todas tools [GET]
++ Relation: self
+
++ Parameters
+
+  
+    + tags (string)
+
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "_id": "61f74bc6427f1f94302be05c",
+                "title": "github",
+                "description": "GitHub é uma plataforma de hospedagem de código-fonte e arquivos com controle de versão",
+                "link": "notion 1",
+                "tags": [
+                    "api",
+                    "tags",
+                    "versionamento",
+                    "repository",
+                    "git"
+                 ]
+            }
+            {
+                "id": "61f74bc6427f1f94302be05c",
+                "title": "json-server",
+                "link": "https://github.com/typicode/json-server",
+                "description": "Fake REST API based on a json schema. Useful for mocking and creating APIs for front-end devs to consume in coding challenges.",
+                "tags": [
+                    "api",
+                    "tags",
+                    "json",
+                    "schema",
+                    "node",
+                    "github",
+                    "rest"
+                ]
+            }
+
+    + Schema
+
+            {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                     "link": {
+                        "type": "string"
+                    },
+                    "tags": {
+                        "type": "[String]",
+                      
+                    }
+                }
+            }
+
+
+# Cadastrar uma nova ferramenta  [/tools]
+
++ Parameters
+
+    + title (string)
+    + description (string) 
+    + link (string)
+    + tags (array)
+
+### cadastrar [POST]
+
+Esta accao permite cadastrar uma nova feramenta
+
++ Request (application/json)
+
+    + Body
+
+            {
+                "title": "TesteFerramenta",
+                "link": "ferramente.com",
+                "description": "Testar mais uma nova ferramenta ",
+                "tags": [
+                        "teste",
+                        "node ",
+                        "Ferramenta",
+                        "writing",
+                        "calendar"
+                    ]
+            }
+
+    + Schema
+
+           {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "link": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    
+                    "tags": {
+                        "type": "[String]",
+                      
+                    }
+                }
+            }
+
+
++ Response 201
+
+    + Headers
+
+            Content-Type: application/json
+
+    + Body
+            {
+               "status": "Created",
+               "data": {
+                   "title": "TesteFerramenta",
+                   "description": "Testar mais uma nova ferramenta ",
+                   "link": "ferramente.com",
+                   "tags": [
+                       "teste",
+                       "node ",
+                       "Ferramenta",
+                       "writing",
+                       "calendar"
+                   ],
+                   "_id": "61f7ffc5a99688d49cea32e0",
+                   "__v": 0
+               }
+            }
+
+
+
+# Actualizar Ferramenta [/tools/{id}]
+
++ Parameters
+
+    + id (required) - Identificador da Ferramenta
+
+## Actualiza ferramenta [PATCH]
+Altera os dados da ferramenta usando o id. 
+Podes alterar `title`, `tags`, `links`, `descricao`
+
+
++ Request (application/json)
+
+    + Body
+
+            {
+                "title": "TesteFerramenta Actualizar",
+                "link": "ferramente.com",
+                "description": "Testar mais uma nova ferramenta ",
+                "tags": [
+                    "teste",
+                    "node ",
+                    "Ferramenta",
+                    "writing",
+                    "calendar"
+                ]
+            }
+
+    + Schema
+
+            {
+                "type": "object",
+                "properties": {
+                     "id": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "link": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    
+                    "tags": {
+                        "type": "[String]",
+                      
+                    }
+                },
+                
+            }
+
++ Response 200  
+
+    + Body
+            {
+            "status": "success",
+            "data": {
+                "_id": "61f81de3a99688d49cea32e5",
+                "title": "TesteFerramenta Actualizar",
+                "description": "Testar mais uma nova ferramenta ",
+                "link": "ferramente.com",
+                "tags": [
+                    "teste",
+                    "node ",
+                    "Ferramenta",
+                    "writing",
+                    "calendar"
+                ],
+                "__v": 0
+            }
+}
+
+
+
+### Apagar ferramenta [DELETE]
++ Relation: delete
+
++ Response 204
+
+## Group Usuario
+Recursos relacionados ao usuarios dentro da api
+
+## Login [/users/login]
+
+O login possui dois parametros e sao necessarios que eles estejam correctos para 
+acessar a api
++ email 
++ password
+
+sao os atributos necesarios para acessar a sua conta
+
+## Efectuar Login [POST]
+    
++ Parameters
+
+    + email (email)
+    + password
+
++ Request (application/json)
+    + Body  
+
+            {
+                "email": "teste@teste.com",
+                "password": "teste1234"
+            }  
++ response 200 
+   
+     + Body  
+    
+            {
+        
+                "status": "success",
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxZjY5YTU1MGRjZDdjOTkwNGNiODY1OCIsImlhdCI6MTY0MzY1MzE3NiwiZXhwIjoxNjUxNDI5MTc2fQ.RHOabiZs3OFSJcuA701RZh8hvoz8zIzxqtQTVNo7bQ8",
+                "data": {
+                    "user": {
+                        "_id": "61f69a550dcd7c9904cb8658",
+                        "name": "teste",
+                        "email": "teste@teste.com",
+                        "role": "RESTWriter",
+                        "__v": 0,
+                        "passwordResetExpires": "2022-01-31T11:47:21.389Z",
+                        "passwordResetToken": "b0d967bb8722327e43e5e831a7a2ff04a513eebd32d9fd8757287488e5d25b1d"
+                    }
+                }
+            }
+
+## Cadastro [/users/signup]
+Se usuario nao tem conta, ele pode cadastra-se na api, preenchendo corractamente
+os campos necessarios de
+
+## Efectuar cadastro [POST]
+
++ Request (application/json)
+
+    + Body
+
+            {
+            "name": "Joao",
+            "email" : "joao@example.com",
+            "password": "password",
+            "passwordConfirm": "password"
+
+            }
+
+    + Schema
+
+           {
+                "type": "object",
+                "properties": {
+                     "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "enum"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    
+                    "confirmPassword": {
+                        "type": "string",
+                      
+                    }
+                },
+                
+            }
+
++ Response 200
+
+## Perfil [/users/me] 
+
+O usuario logado pode visualizar os seus dados
+
+## Ver o meu perfil [GET]
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+                "status": "success",
+                "data": {
+
+                            "_id": "61f69a550dcd7c9904cb8658",
+                            "name": "teste",
+                            "email": "teste@teste.com",
+                            "role": "RESTWriter",
+                            "__v": 0,
+                            "passwordResetExpires": "2022-01-31T11:47:21.389Z",
+                            "passwordResetToken": "b0d967bb8722327e43e5e831a7a2ff04a513eebd32d9fd8757287488e5d25b1d"
+                        }
+            }
+
+## Sair da Api [/users/logout]
+O usuario logado pode sar deslogar da aplicacao
+
+## SAIR [GET]
+
++ Response 200 
+
+## Esquecer senha [/users/forgotPassword]
+
+Caso o usuario esqueca sua senha ele pode recupera-la
+## recuperar senha [POST]
+
++ Parameters
+    + email
+
+    Response 200
+
+
+
+
