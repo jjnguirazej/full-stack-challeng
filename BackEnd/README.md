@@ -16,3 +16,5 @@ Antes de mais nada para rodar em seu ambiente local, deves seguir os seguintes c
 4 - preencha os dados do config.env corretamente
 
 6- use o comando "npm run startDev" sem "" para rodar usando nodemon, caso nao tenha instalado apenas rode usando o comando "npm start" 
+
+O banco de dados usado foi Mongo DB atlas
